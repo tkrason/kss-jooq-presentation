@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: kss-jooq-presentation
+  datasource:
+    url: jdbc:postgresql://localhost:5432/kss-local
+    username: postgres
+    password: postgres
