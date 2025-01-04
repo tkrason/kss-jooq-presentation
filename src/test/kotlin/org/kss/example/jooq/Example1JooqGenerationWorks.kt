@@ -1,15 +1,12 @@
 package org.kss.example.jooq
 
-import org.jooq.DSLContext
 import org.junit.jupiter.api.Test
+import org.kss.example.jooq.helper.BaseTest
 import org.kss.example.tables.references.PROFILE
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class Example1JooqGenerationWorks(
-	@Autowired private val dslContext: DSLContext
-) {
+class Example1JooqGenerationWorks: BaseTest() {
 
 	/**
 	 * ``` sql
