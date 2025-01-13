@@ -1,5 +1,7 @@
 package org.kss.example.jooq.helper
 
+import org.kss.example.jooq.entity.Address
+import org.kss.example.jooq.entity.AddressRepository
 import org.kss.example.jooq.entity.Interest
 import org.kss.example.jooq.entity.InterestRepository
 import org.kss.example.jooq.entity.Profile
@@ -20,19 +22,32 @@ class TestHelper(
 	@Autowired private val profilePictureRepository: ProfilePictureRepository,
 	@Autowired private val interestRepository: InterestRepository,
 	@Autowired private val profileInterestRepository: ProfileInterestRepository,
+	@Autowired private val addressRepository: AddressRepository,
 ) {
 
 	fun getProfile(
 		name: String,
-		description: String,
-		birthDate: LocalDate,
+		description: String = "",
+		birthDate: LocalDate = LocalDate.now(),
+		addressId: UUID? = null,
 	) = profileRepository.save(
 		Profile(
 			name = name,
 			description = description,
-			birthDate = birthDate
+			birthDate = birthDate,
+			addressId = addressId ?: getAddress().id
 		)
 	)
+
+	fun getAddress(
+		street: String = "test street",
+		streetNumber: Int = 42,
+		city: String = "test city",
+	) = addressRepository.save(Address(
+		street = street,
+		streetNumber = streetNumber,
+		city = city
+	))
 
 	fun getProfilePicture(
 		profileId: UUID,
