@@ -251,6 +251,12 @@
                                     <includes>.*</includes>
                                     <excludes/>
                                     <inputSchema>public</inputSchema>
+                                    <forcedTypes>
+                                        <forcedType>
+                                            <name>INSTANT</name>
+                                            <includeTypes>(?i:TIMESTAMPTZ)</includeTypes>
+                                        </forcedType>
+                                    </forcedTypes>
                                 </database>
                                 <generate>
                                     <pojos>false</pojos>
