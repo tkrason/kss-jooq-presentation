@@ -36,7 +36,7 @@ class Example3Joins : BaseTest() {
 		val brno = testHelper.getAddress("Národní", 20, "Brno")
 
 		testHelper.getProfile(name = "Pan X", addressId = prague.id)
-		testHelper.getProfile(name = "Pan Y", addressId = brno.id)
+		testHelper.getProfile(name = "Pani Y", addressId = brno.id)
 
 		val result = dslContext
 			.select(

@@ -1,6 +1,7 @@
 package org.kss.example.jooq
 
 import io.kotest.matchers.collections.shouldContainExactly
+import org.jooq.impl.DSL
 import org.junit.jupiter.api.Test
 import org.kss.example.jooq.helper.BaseTest
 import org.kss.example.tables.references.PROFILE
@@ -39,10 +40,14 @@ class Example2BasicSqlSelect : BaseTest() {
 	fun `jooq with conditions`() {
 		// given
 		val peter = testHelper.getProfile(
-			name = "Peter", description = "Hello Im cool match me", birthDate = LocalDate.of(1990, Month.APRIL, 20)
+			name = "Peter",
+			description = "Hello Im cool match me",
+			birthDate = LocalDate.of(1990, Month.APRIL, 20)
 		)
 		val adam = testHelper.getProfile(
-			name = "Adam", description = "Im cool", birthDate = LocalDate.of(2001, Month.NOVEMBER, 20)
+			name = "Adam",
+			description = "Im cool",
+			birthDate = LocalDate.of(2001, Month.NOVEMBER, 20)
 		)
 
 		// when
@@ -53,14 +58,24 @@ class Example2BasicSqlSelect : BaseTest() {
 			// PROFILE.BIRTH_DATE.gt(LocalDateTime.now())  // <-- This would error as types not match!
 		)
 
-		val ids = dslContext.select(PROFILE.ID).from(PROFILE).where(conditions).fetch().map {
-			it[PROFILE.ID]!!
-		}
+		// can be also user with OR...
+		listOf(
+			DSL.or(
+				PROFILE.NAME.like("Adam"),
+				PROFILE.DESCRIPTION.likeIgnoreCase("%cOoL%"),
+			),
+			PROFILE.BIRTH_DATE.gt(LocalDate.of(2000, Month.JANUARY, 1)),
+		)
+
+		val ids = dslContext
+			.select(PROFILE.ID)
+			.from(PROFILE)
+			.where(conditions)
+			.fetch()
+			.map { it[PROFILE.ID]!! }
 
 		// then
-		ids shouldContainExactly listOf(
-			adam.id
-		)
+		ids shouldContainExactly listOf(adam.id)
 	}
 
 	@Test
@@ -82,8 +97,13 @@ class Example2BasicSqlSelect : BaseTest() {
 		val conditions = listOfNotNull(
 			nameFilter?.let { PROFILE.NAME.eq(it) },
 			descriptionFilter?.let { PROFILE.DESCRIPTION.likeIgnoreCase("%$it%") },
-			birthDayFilter?.let { PROFILE.BIRTH_DATE.gt(it) })
+			birthDayFilter?.let { PROFILE.BIRTH_DATE.gt(it) }
+		)
 
-		dslContext.select(PROFILE.ID).from(PROFILE).where(conditions).fetch()
+		dslContext
+			.select(PROFILE.ID)
+			.from(PROFILE)
+			.where(conditions)
+			.fetch()
 	}
 }

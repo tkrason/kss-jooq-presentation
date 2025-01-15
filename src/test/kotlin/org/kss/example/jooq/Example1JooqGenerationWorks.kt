@@ -22,6 +22,7 @@ class Example1JooqGenerationWorks: BaseTest() {
 	 */
 	@Test
 	fun `the jooq classes are properly generated and ready to be used`() {
+		// Note: Set db to kss-local
 		dslContext
 			.select()
 			.from(PROFILE)

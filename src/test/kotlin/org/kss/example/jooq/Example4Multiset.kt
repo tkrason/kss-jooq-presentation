@@ -6,6 +6,7 @@ import org.jooq.impl.DSL
 import org.jooq.kotlin.mapping
 import org.junit.jupiter.api.Test
 import org.kss.example.jooq.helper.BaseTest
+import org.kss.example.tables.references.ADDRESS
 import org.kss.example.tables.references.PROFILE
 import org.kss.example.tables.references.PROFILE_INTEREST
 import org.kss.example.tables.references.PROFILE_PICTURE
@@ -28,6 +29,9 @@ data class Profile(
 	val name: String,
 	val description: String,
 	val birthDate: LocalDate,
+	val street: String,
+	val streetNumber: Int,
+	val city: String,
 	val profilePictures: List<ProfilePicture>,
 	val interests: List<Interest>,
 )
@@ -112,6 +116,9 @@ class Example3Multiset : BaseTest() {
 				PROFILE.NAME,
 				PROFILE.DESCRIPTION,
 				PROFILE.BIRTH_DATE,
+				PROFILE.address.STREET,
+				PROFILE.address.STREET_NUMBER,
+				PROFILE.address.CITY,
 				profilePictures,
 				interests,
 			)
@@ -123,6 +130,9 @@ class Example3Multiset : BaseTest() {
 					name = it[PROFILE.NAME]!!,
 					description = it[PROFILE.DESCRIPTION]!!,
 					birthDate = it[PROFILE.BIRTH_DATE]!!,
+					street = it[ADDRESS.STREET]!!,
+					streetNumber = it[ADDRESS.STREET_NUMBER]!!,
+					city = it[ADDRESS.CITY]!!,
 					profilePictures = it[profilePictures],
 					interests = it[interests]
 				)

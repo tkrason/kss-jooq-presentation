@@ -2,6 +2,19 @@ spring:
   application:
     name: kss-jooq-presentation
   datasource:
-    url: jdbc:postgresql://localhost:5432/kss-local
+    url: jdbc:postgresql://localhost:5432/kss-local?reWriteBatchedInserts=true
     username: postgres
     password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          time_zone: UTC
+          batch_size: 20
+        order_updates: true
+        order_inserts: true
+        batch_versioned_data: true
